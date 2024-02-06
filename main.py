@@ -1,10 +1,13 @@
-from flask import Flask, render_template
+from flask import request, render_template, Flask, jsonify
+from flask_cors import CORS
+from database import generate_random_weapon, generate_random_armor
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-  return render_template('index.html')
+CORS(app)
 
-if __name__ == '__main__':
-  app.run(port=5000)
+@app.route('/')
+def generate_loot():
+    weapon = generate_random_weapon()
+    armor = generate_random_armor()
+    return jsonify({"weapon": weapon, "armor": armor})
